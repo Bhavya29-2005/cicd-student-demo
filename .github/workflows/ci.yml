@@ -3,6 +3,8 @@ name: Student Python CI
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   test:
@@ -18,7 +20,14 @@ jobs:
           python-version: "3.13"
 
       - name: Install pytest
-        run: pip install pytest
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+
+      - name: Check Python files
+        run: |
+          python -m compileall .
 
       - name: Run automated tests
-        run: pytest -v
+        run: |
+          pytest -v
